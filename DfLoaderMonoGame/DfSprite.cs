@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DfLoader
+namespace DfLoaderMonoGame
 {
-	class DfSprite
+	public class DfSprite
 	{
 		private DfSpritesheet spritesheet;
 		//private string name;

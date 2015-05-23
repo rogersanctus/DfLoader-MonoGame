@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DfLoader
+namespace DfLoaderMonoGame
 {
-	class DfAnimation
+	public class DfAnimation
 	{
 		private DfAnimationDef current;
 		private int currentFrame;

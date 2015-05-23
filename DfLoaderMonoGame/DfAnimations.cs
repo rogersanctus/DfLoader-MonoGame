@@ -5,9 +5,9 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace DfLoader
+namespace DfLoaderMonoGame
 {
-	class DfAnimations
+	public class DfAnimations
 	{
 		public Dictionary<string, DfAnimationDef> anims;
 		public DfSpritesheet spritesheet { get; internal set; }
@@ -114,7 +114,7 @@ namespace DfLoader
 		}
 	}
 
-	class DfAnimationDef
+	public class DfAnimationDef
 	{
 		public int loops;
 		public SortedList<int, DfCell> cells;
@@ -126,7 +126,7 @@ namespace DfLoader
 		}
 	}
 
-	class DfCell
+	public class DfCell
 	{
 		public int delay;
 		//public Dictionary<string, DfCellSprite> cell_sprs;

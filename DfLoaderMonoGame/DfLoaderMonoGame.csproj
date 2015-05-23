@@ -7,7 +7,7 @@
     <ProjectGuid>{ABB59C67-FF90-4B3F-8068-5D29F674D193}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DfLoader</RootNamespace>
+    <RootNamespace>DfLoaderMonoGame</RootNamespace>
     <AssemblyName>DfLoaderMonoGame</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

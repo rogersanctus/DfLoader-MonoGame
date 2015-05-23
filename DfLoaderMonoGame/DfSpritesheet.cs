@@ -5,9 +5,9 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace DfLoader
+namespace DfLoaderMonoGame
 {
-	class DfSpritesheet
+	public class DfSpritesheet
 	{
 		public Dictionary<string, Microsoft.Xna.Framework.Rectangle> rects;
 		public string texName;
@@ -112,7 +112,7 @@ namespace DfLoader
 		}
 	}
 
-	class DfSpriteDef
+	public class DfSpriteDef
 	{
 		public Microsoft.Xna.Framework.Rectangle rect { get; set; }
 
