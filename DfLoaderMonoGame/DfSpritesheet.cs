@@ -127,10 +127,5 @@ namespace DfLoaderMonoGame
 				rect = new Microsoft.Xna.Framework.Rectangle();
 			}
 		}
-
-		public DfSpriteDef(Microsoft.Xna.Framework.Rectangle rect)
-		{
-			this.rect = rect;
-		}
 	}
 }
