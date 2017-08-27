@@ -11,17 +11,17 @@ namespace MonoGame.DfLoader
 {
 	public class Spritesheet
 	{
-		public Dictionary<string, Rectangle> rects;
-		public string texName;
-		public Texture2D tex;
-		public int width;
-		public int height;
+		public Dictionary<string, Rectangle> Rects { get; set; }
+		public string TexName { get; set; }
+		public Texture2D Tex { get; set; }
+		public int Width { get; set; }
+		public int Height { get; set; }
 
 		public Spritesheet(string xmlStr, ContentManager content)
 		{			
-			rects = new Dictionary<string, Rectangle>();
-			width = 0;
-			height = 0;
+			Rects = new Dictionary<string, Rectangle>();
+			Width = 0;
+			Height = 0;
 
 			try
 			{
@@ -41,20 +41,20 @@ namespace MonoGame.DfLoader
 					throw new NullReferenceException();
 				}
 
-				texName = (string)nameAtt;
+				TexName = (string)nameAtt;
 
 				if(widthAtt != null)
-					width = (int)widthAtt;
+					Width = (int)widthAtt;
 				if(heightAtt != null)
-					height = (int)heightAtt;
+					Height = (int)heightAtt;
 
-				if(texName.Contains("."))
+				if(TexName.Contains("."))
 				{
 					char[] sep = { '.' };
-					texName = texName.Split(sep, StringSplitOptions.RemoveEmptyEntries)[0];
+					TexName = TexName.Split(sep, StringSplitOptions.RemoveEmptyEntries)[0];
 				}
 
-				tex = content.Load<Texture2D>(texName);
+				Tex = content.Load<Texture2D>(TexName);
 
 				var definitionsEle = imgEle.Element("definitions");
 
@@ -102,7 +102,7 @@ namespace MonoGame.DfLoader
 						var h = (int)d.Attribute("h");
 
 						//SpriteDef spr = new SpriteDef(new Rectangle(x, y, w, h));
-						rects.Add(sprName, new Rectangle(x, y, w, h));
+						Rects.Add(sprName, new Rectangle(x, y, w, h));
 					}
 					catch (Exception e)
 					{						
@@ -116,17 +116,17 @@ namespace MonoGame.DfLoader
 
 	public class SpriteDef
 	{
-		public Rectangle rect { get; set; }
+		public Rectangle Rect { get; set; }
 
 		public SpriteDef(string name, Spritesheet spritesheet)
 		{
-			if (spritesheet.rects.ContainsKey(name))
+			if (spritesheet.Rects.ContainsKey(name))
 			{
-				rect = spritesheet.rects[name];
+				Rect = spritesheet.Rects[name];
 			}
 			else
 			{
-				rect = new Rectangle();
+				Rect = new Rectangle();
 			}
 		}
 	}

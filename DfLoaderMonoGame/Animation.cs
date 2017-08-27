@@ -12,48 +12,49 @@ namespace MonoGame.DfLoader
 		private int currentFrame;
 		private Animations animations;
 		private bool playing;
-		private string _animation;
-		private double _time;
-		private double _timeNext;
-		private bool _reverse;
-		private bool _pingpong;
+		private string name;
+		private double time;
+		private double timeNext;
+		private bool reverse;
+		private bool pingpong;
 		private int loops;
 
-		public Vector2 pos;
+		public Vector2 Pos { get; set; }
 
 		public const string NO_ANIM = "None";
 
 		public Animation(Animations animations, Vector2 pos = new Vector2())
 		{
-			_animation = NO_ANIM;				
+			name = NO_ANIM;				
 			this.animations = animations;
 			currentFrame = 0;
 			current = null;
 			playing = false;
-			this.pos = pos;
-			_time = 0.0;
-			_timeNext = 0.0;
-			_pingpong = _reverse = false;
+			this.Pos = pos;
+			time = 0.0;
+			timeNext = 0.0;
+			pingpong = reverse = false;
 			loops = 0;
 		}
 
-		public string animation
+		public string Name
 		{
-			get { return _animation; }
+			get { return name; }
 
 			set
 			{
-				_animation = value;
+				name = value;
 
-				if(animations.anims.ContainsKey(_animation))
+				if(animations.Anims.ContainsKey(name))
 				{
-					current = animations.anims[_animation];
-					_timeNext = current.cells[currentFrame].delay;
-					loops = current.loops;
-				}else
+					current = animations.Anims[name];
+					timeNext = current.Cells[currentFrame].Delay;
+					loops = current.Loops;
+				}
+                else
 				{
-                    _animation = NO_ANIM;
-                    throw new Exception("DfLoader Error. No animation found with this name: " + _animation);
+                    name = NO_ANIM;
+                    throw new Exception("DfLoader Error. No animation found with this name: " + name);
 				}
 			}
 		}
@@ -88,18 +89,17 @@ namespace MonoGame.DfLoader
                 return;
             }
 
-			_time += dt.ElapsedGameTime.Milliseconds;
-			//_time /= 1000;
+			time += dt.ElapsedGameTime.Milliseconds;
 
-			if(_time >= _timeNext)
+			if(time >= timeNext)
 			{
-				_timeNext = _time + current.cells[frame].delay;
+				timeNext = time + current.Cells[frame].Delay;
 
-				if (!_reverse)
+				if (!reverse)
 				{
 					frame++;
 
-					if(frame >= current.cells.Count)
+					if(frame >= current.Cells.Count)
 					{
 						if(loops > 0)
 						{
@@ -110,14 +110,14 @@ namespace MonoGame.DfLoader
 						// Loops done. Time to stop
 						if(loops == 0)
 						{
-                            if (current.loops != loops)
+                            if (current.Loops != loops)
                             {
                                 Stop();
-                                frame = current.cells.Count - 1;
+                                frame = current.Cells.Count - 1;
                             }
                             else
                             {
-                                frame = 0;  // Infinite loops
+                                frame = 0;  // Infinite Loops
                             }
 						}
 					}
@@ -130,29 +130,29 @@ namespace MonoGame.DfLoader
 					{
 						if (loops > 0)
 						{
-							frame = current.cells.Count - 1;
+							frame = current.Cells.Count - 1;
 							loops--;
 						}
 
 						// Loops done. Time to stop
 						if (loops == 0)
 						{
-                            if (current.loops != loops)
+                            if (current.Loops != loops)
                             {
                                 Stop();
                                 frame = 0;
                             }
                             else
                             {
-                                frame = current.cells.Count - 1;    // Infinite loops
+                                frame = current.Cells.Count - 1;    // Infinite Loops
                             }
 						}
 					}
 				}
 
-                if (_pingpong)
+                if (pingpong)
                 {
-                    _reverse = !_reverse;
+                    reverse = !reverse;
                 }
 
 				currentFrame = frame;
@@ -162,13 +162,13 @@ namespace MonoGame.DfLoader
 
 		public void Draw(SpriteBatch batch)
 		{
-			// Do not try to draw a not found or not defined animation
-			if (_animation == NO_ANIM)
+			// Do not try to draw a not found or not defined Name
+			if (name == NO_ANIM)
 				return;
 
-			foreach (KeyValuePair<string, Sprite> pair in current.cells[currentFrame].cell_sprs)
+			foreach (KeyValuePair<string, Sprite> pair in current.Cells[currentFrame].CellSprites)
 			{
-				pair.Value.pos = pos;
+				pair.Value.Pos = Pos;
 				pair.Value.Draw(batch);
 			}
 		}

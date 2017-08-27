@@ -10,12 +10,17 @@ namespace MonoGame.DfLoader
 {
 	public class Animations
 	{
-		public Dictionary<string, AnimationDef> anims;
-		public Spritesheet spritesheet { get; internal set; }
+		public Dictionary<string, AnimationDef> Anims { get; set; }
+        private Spritesheet spritesheet;
+
+        public Spritesheet GetSpritesheet()
+        {
+            return spritesheet;
+        }
 
 		public Animations(string xmlStr, ContentManager content, Spritesheet spritesheet = null)
 		{
-			anims = new Dictionary<string, AnimationDef>();
+			Anims = new Dictionary<string, AnimationDef>();
 
 			this.spritesheet = spritesheet;
 
@@ -56,7 +61,7 @@ namespace MonoGame.DfLoader
 					var loops = (int)anim.Attribute("loops");
 
 					AnimationDef animDef = new AnimationDef(loops);
-					anims.Add(animName, animDef);
+					Anims.Add(animName, animDef);
 
 					foreach (XElement cellNode in anim.Elements("cell"))
 					{
@@ -70,37 +75,40 @@ namespace MonoGame.DfLoader
 							delay = (int)delayAtt;
 
 						Cell cell = new Cell(delay);
-						animDef.cells.Add(index, cell);
+						animDef.Cells.Add(index, cell);
 
-						foreach (XElement sprNode in cellNode.Elements("spr"))
-						{
-							var sprName = (string)sprNode.Attribute("name");
-							var x = (int)sprNode.Attribute("x");
-							var y = (int)sprNode.Attribute("y");
-							var z = (int)sprNode.Attribute("z");
+                        foreach (XElement sprNode in cellNode.Elements("spr"))
+                        {
+                            var sprName = (string)sprNode.Attribute("name");
+                            var x = (int)sprNode.Attribute("x");
+                            var y = (int)sprNode.Attribute("y");
+                            var z = (int)sprNode.Attribute("z");
 
-							bool flipH = false, flipV = false;
-							float angle = 0.0f;
+                            bool flipH = false, flipV = false;
+                            float angle = 0.0f;
 
-							if (sprNode.Attribute("flipH") != null)
-								flipH = (bool)sprNode.Attribute("flipH");
-							if (sprNode.Attribute("flipV") != null)
-								flipV = (bool)sprNode.Attribute("flipV");
-							if (sprNode.Attribute("angle") != null)
-								angle = (float)sprNode.Attribute("angle");
+                            if (sprNode.Attribute("flipH") != null)
+                                flipH = (bool)sprNode.Attribute("flipH");
+                            if (sprNode.Attribute("flipV") != null)
+                                flipV = (bool)sprNode.Attribute("flipV");
+                            if (sprNode.Attribute("angle") != null)
+                                angle = (float)sprNode.Attribute("angle");
 
-							angle *= (float)(Math.PI / 180); // Convert angle from degrees to radians
+                            angle *= (float)(Math.PI / 180); // Convert Angle from degrees to radians
 
-							var spr = new Sprite(sprName, this.spritesheet, new Vector2(x, y));
-							spr.z = z;
-							spr.flipH = flipH;
-							spr.flipV = flipV;
-							spr.angle = angle;
-							cell.cell_sprs.Add(sprName, spr);							
+                            var spr = new Sprite(sprName, this.spritesheet, new Vector2(x, y))
+                            {
+                                Z = z,
+                                FlipH = flipH,
+                                FlipV = flipV,
+                                Angle = angle
+                            };
+
+							cell.CellSprites.Add(sprName, spr);							
 						}
 
-						//Order the sprite list for the current cell
-						cell.cell_sprs.OrderBy(x => x.Value.z);
+						//Order the sprite list for the current cell sprites by their Z order
+						cell.CellSprites.OrderBy(x => x.Value.Z);
 					}
 				}
 
@@ -114,25 +122,25 @@ namespace MonoGame.DfLoader
 
 	public class AnimationDef
 	{
-		public int loops;
-		public SortedList<int, Cell> cells;
+		public int Loops { get; set; }
+		public SortedList<int, Cell> Cells { get; set; }
 
 		public AnimationDef(int loops)
 		{
-			cells = new SortedList<int, Cell>();
-			this.loops = loops;
+			Cells = new SortedList<int, Cell>();
+			this.Loops = loops;
 		}
 	}
 
 	public class Cell
 	{
-		public int delay;		
-		public Dictionary<string, Sprite> cell_sprs;
+		public int Delay { get; set; }		
+		public Dictionary<string, Sprite> CellSprites { get; set; }
 
 		public Cell(int delay)
 		{
-			this.delay = delay;			
-			cell_sprs = new Dictionary<string, Sprite>();
+			Delay = delay;			
+			CellSprites = new Dictionary<string, Sprite>();
 		}
 	}	
 }

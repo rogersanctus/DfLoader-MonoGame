@@ -6,37 +6,37 @@ namespace MonoGame.DfLoader
 	public class Sprite
 	{
 		private Spritesheet spritesheet;
-		public Vector2 pos;
-		public int z;
-		public double angle;
-		public Vector2 center;
-		public bool flipH;
-		public bool flipV;
-		private SpriteDef _def;
+		public Vector2 Pos { get; set; }
+		public int Z { get; set; }
+		public double Angle { get; set; }
+		public Vector2 Center { get; set; }
+		public bool FlipH { get; set; }
+		public bool FlipV { get; set; }
+		private SpriteDef def;
 
-		public int width
+		public int Width
 		{
-			get { return _def.rect.Width; }
+			get { return def.Rect.Width; }
 		}
 
-		public int height
+		public int Height
 		{
-			get { return _def.rect.Height; }
+			get { return def.Rect.Height; }
 		}
 
 		public Sprite(string name, Spritesheet spritesheet, Vector2 pos = new Vector2())
 		{
 			this.spritesheet = spritesheet;
-			this.pos = pos;
-			this.center = new Vector2();
-			this.angle = 0.0f;
-			flipH = flipV = false;
-			z = 0;
+			this.Pos = pos;
+			this.Center = new Vector2();
+			this.Angle = 0.0f;
+			FlipH = FlipV = false;
+			Z = 0;
 
 			if(spritesheet != null)
 			{
-				_def = new SpriteDef(name, spritesheet);
-				center = new Vector2(_def.rect.Width / 2.0f, _def.rect.Height / 2.0f);
+				def = new SpriteDef(name, spritesheet);
+				Center = new Vector2(def.Rect.Width / 2.0f, def.Rect.Height / 2.0f);
 			}
 		}
 
@@ -49,15 +49,15 @@ namespace MonoGame.DfLoader
 		{
 			if(spritesheet == null)
 				return;
-			if(spritesheet.tex == null)
+			if(spritesheet.Tex == null)
 				return;
 
             var effects = SpriteEffects.None;
-            if (flipH) effects |= SpriteEffects.FlipHorizontally;
-            if (flipV) effects |= SpriteEffects.FlipVertically;
+            if (FlipH) effects |= SpriteEffects.FlipHorizontally;
+            if (FlipV) effects |= SpriteEffects.FlipVertically;
 
             batch.Begin();			
-			batch.Draw(spritesheet.tex, pos, _def.rect, Color.White, (float)angle, center, 1.0f, effects, 0.0f);
+			batch.Draw(spritesheet.Tex, Pos, def.Rect, Color.White, (float)Angle, Center, 1.0f, effects, 0.0f);
 			batch.End();
 		}
 	}

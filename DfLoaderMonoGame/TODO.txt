@@ -1,0 +1,1 @@
+﻿* To change XML and Texture loading process through a custom ContentPipeline processor
