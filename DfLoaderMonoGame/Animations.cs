@@ -5,14 +5,14 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace DfLoaderMonoGame
+namespace MonoGame.DfLoader
 {
-	public class DfAnimations
+	public class Animations
 	{
 		public Dictionary<string, DfAnimationDef> anims;
-		public DfSpritesheet spritesheet { get; internal set; }
+		public Spritesheet spritesheet { get; internal set; }
 
-		public DfAnimations(string xmlStr, Microsoft.Xna.Framework.Content.ContentManager content, DfSpritesheet spritesheet = null)
+		public Animations(string xmlStr, Microsoft.Xna.Framework.Content.ContentManager content, Spritesheet spritesheet = null)
 		{
 			anims = new Dictionary<string, DfAnimationDef>();
 
@@ -41,7 +41,7 @@ namespace DfLoaderMonoGame
 							var path = System.IO.Path.Combine(content.RootDirectory, fileName);
 							System.IO.Stream s = Microsoft.Xna.Framework.TitleContainer.OpenStream(path);
 							var reader = new System.IO.StreamReader(s);
-							this.spritesheet = new DfSpritesheet(reader.ReadToEnd(), content);
+							this.spritesheet = new Spritesheet(reader.ReadToEnd(), content);
 						}
 					}
 					catch (System.IO.IOException e)
@@ -92,7 +92,7 @@ namespace DfLoaderMonoGame
 
 							angle *= (float)(Math.PI / 180); // Convert angle from degrees to radians
 
-							var spr = new DfSprite(sprName, this.spritesheet, new Microsoft.Xna.Framework.Vector2(x, y));
+							var spr = new Sprite(sprName, this.spritesheet, new Microsoft.Xna.Framework.Vector2(x, y));
 							spr.z = z;
 							spr.flipH = flipH;
 							spr.flipV = flipV;
@@ -130,13 +130,13 @@ namespace DfLoaderMonoGame
 	{
 		public int delay;
 		//public Dictionary<string, DfCellSprite> cell_sprs;
-		public Dictionary<string, DfSprite> cell_sprs;
+		public Dictionary<string, Sprite> cell_sprs;
 
 		public DfCell(int delay)
 		{
 			this.delay = delay;
 			//cell_sprs = new Dictionary<string, DfCellSprite>();
-			cell_sprs = new Dictionary<string, DfSprite>();
+			cell_sprs = new Dictionary<string, Sprite>();
 		}
 	}	
 }

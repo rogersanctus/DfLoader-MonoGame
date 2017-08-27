@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DfLoaderMonoGame
+namespace MonoGame.DfLoader
 {
-	public class DfAnimation
+	public class Animation
 	{
 		private DfAnimationDef current;
 		private int currentFrame;
-		private DfAnimations animations;
+		private Animations animations;
 		private bool playing;
 		private string _animation;
 		private double _time;
@@ -22,7 +22,7 @@ namespace DfLoaderMonoGame
 
 		public const string NO_ANIM = "None";
 
-		public DfAnimation(DfAnimations animations, Microsoft.Xna.Framework.Vector2 pos = new Microsoft.Xna.Framework.Vector2())
+		public Animation(Animations animations, Microsoft.Xna.Framework.Vector2 pos = new Microsoft.Xna.Framework.Vector2())
 		{
 			_animation = NO_ANIM;				
 			this.animations = animations;
@@ -153,7 +153,7 @@ namespace DfLoaderMonoGame
 			if (_animation == NO_ANIM)
 				return;
 
-			foreach (KeyValuePair<string, DfSprite> pair in current.cells[currentFrame].cell_sprs)
+			foreach (KeyValuePair<string, Sprite> pair in current.cells[currentFrame].cell_sprs)
 			{
 				pair.Value.pos = pos;
 				pair.Value.Draw(batch);

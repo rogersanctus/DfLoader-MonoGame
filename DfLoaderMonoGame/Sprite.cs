@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DfLoaderMonoGame
+namespace MonoGame.DfLoader
 {
-	public class DfSprite
+	public class Sprite
 	{
-		private DfSpritesheet spritesheet;
+		private Spritesheet spritesheet;
 		//private string name;
 		public Microsoft.Xna.Framework.Vector2 pos;
 		public int z;
@@ -15,7 +15,7 @@ namespace DfLoaderMonoGame
 		public Microsoft.Xna.Framework.Vector2 center;
 		public bool flipH;
 		public bool flipV;
-		private DfSpriteDef _def;
+		private SpriteDef _def;
 
 		public int width
 		{
@@ -27,7 +27,7 @@ namespace DfLoaderMonoGame
 			get { return _def.rect.Height; }
 		}
 
-		public DfSprite(string name, DfSpritesheet spritesheet, Microsoft.Xna.Framework.Vector2 pos = new Microsoft.Xna.Framework.Vector2())
+		public Sprite(string name, Spritesheet spritesheet, Microsoft.Xna.Framework.Vector2 pos = new Microsoft.Xna.Framework.Vector2())
 		{
 			this.spritesheet = spritesheet;
 			//this.name = name;
@@ -39,7 +39,7 @@ namespace DfLoaderMonoGame
 
 			if(spritesheet != null)
 			{
-				_def = new DfSpriteDef(name, spritesheet);
+				_def = new SpriteDef(name, spritesheet);
 				center = new Microsoft.Xna.Framework.Vector2(_def.rect.Width / 2.0f, _def.rect.Height / 2.0f);
 			}
 		}

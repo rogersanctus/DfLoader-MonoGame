@@ -5,19 +5,23 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace DfLoaderMonoGame
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
+
+namespace MonoGame.DfLoader
 {
-	public class DfSpritesheet
+	public class Spritesheet
 	{
-		public Dictionary<string, Microsoft.Xna.Framework.Rectangle> rects;
+		public Dictionary<string, Rectangle> rects;
 		public string texName;
-		public Microsoft.Xna.Framework.Graphics.Texture2D tex;
+		public Texture2D tex;
 		public int width;
 		public int height;
 
-		public DfSpritesheet(string xmlStr, Microsoft.Xna.Framework.Content.ContentManager content)
+		public Spritesheet(string xmlStr, ContentManager content)
 		{			
-			rects = new Dictionary<string, Microsoft.Xna.Framework.Rectangle>();
+			rects = new Dictionary<string, Rectangle>();
 			width = 0;
 			height = 0;
 
@@ -51,7 +55,7 @@ namespace DfLoaderMonoGame
 					char[] sep = { '.' };
 					texName = texName.Split(sep, StringSplitOptions.RemoveEmptyEntries)[0];
 				}
-				tex = content.Load<Microsoft.Xna.Framework.Graphics.Texture2D>(texName);
+				tex = content.Load<Texture2D>(texName);
 
 				var definitionsEle = imgEle.Element("definitions");
 
@@ -98,13 +102,12 @@ namespace DfLoaderMonoGame
 						var w = (int)d.Attribute("w");
 						var h = (int)d.Attribute("h");
 
-						//DfSpriteDef spr = new DfSpriteDef(new Microsoft.Xna.Framework.Rectangle(x, y, w, h));
-						rects.Add(sprName, new Microsoft.Xna.Framework.Rectangle(x, y, w, h));
+						//SpriteDef spr = new SpriteDef(new Rectangle(x, y, w, h));
+						rects.Add(sprName, new Rectangle(x, y, w, h));
 					}
 					catch (Exception exception)
-					{
-						System.Console.WriteLine(exception.ToString());
-						return;
+					{						
+                        throw exception;						
 					}
 
 				}
@@ -112,11 +115,11 @@ namespace DfLoaderMonoGame
 		}
 	}
 
-	public class DfSpriteDef
+	public class SpriteDef
 	{
 		public Microsoft.Xna.Framework.Rectangle rect { get; set; }
 
-		public DfSpriteDef(string name, DfSpritesheet spritesheet)
+		public SpriteDef(string name, Spritesheet spritesheet)
 		{
 			if (spritesheet.rects.ContainsKey(name))
 			{

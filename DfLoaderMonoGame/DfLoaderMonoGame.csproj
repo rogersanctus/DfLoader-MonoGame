@@ -45,10 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DfAnimation.cs" />
-    <Compile Include="DfAnimations.cs" />
-    <Compile Include="DfSprite.cs" />
-    <Compile Include="DfSpritesheet.cs" />
+    <Compile Include="Animation.cs" />
+    <Compile Include="Animations.cs" />
+    <Compile Include="Sprite.cs" />
+    <Compile Include="Spritesheet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
