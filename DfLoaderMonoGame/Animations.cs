@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Xml;
 using System.Xml.Linq;
+
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 
 namespace MonoGame.DfLoader
 {
 	public class Animations
 	{
-		public Dictionary<string, DfAnimationDef> anims;
+		public Dictionary<string, AnimationDef> anims;
 		public Spritesheet spritesheet { get; internal set; }
 
-		public Animations(string xmlStr, Microsoft.Xna.Framework.Content.ContentManager content, Spritesheet spritesheet = null)
+		public Animations(string xmlStr, ContentManager content, Spritesheet spritesheet = null)
 		{
-			anims = new Dictionary<string, DfAnimationDef>();
+			anims = new Dictionary<string, AnimationDef>();
 
 			this.spritesheet = spritesheet;
 
@@ -26,8 +27,7 @@ namespace MonoGame.DfLoader
 
 				if (animationsEle == null)
 				{
-					System.Console.WriteLine("Error. Invalid animation XML file. Expected animations tag.");
-					return;
+                    throw new Exception("DfLoader Error. Invalid animation XML file. Expected animations tag.");
 				}
 
 				if (this.spritesheet == null)
@@ -39,15 +39,14 @@ namespace MonoGame.DfLoader
 						{
 							var fileName = (string)animationsEle.Attribute("spriteSheet");
 							var path = System.IO.Path.Combine(content.RootDirectory, fileName);
-							System.IO.Stream s = Microsoft.Xna.Framework.TitleContainer.OpenStream(path);
+							System.IO.Stream s = TitleContainer.OpenStream(path);
 							var reader = new System.IO.StreamReader(s);
 							this.spritesheet = new Spritesheet(reader.ReadToEnd(), content);
 						}
 					}
 					catch (System.IO.IOException e)
 					{
-						System.Console.WriteLine(e.ToString());
-						return;
+						throw new Exception("DfLoader error. " + e.ToString());
 					}
 				}
 
@@ -56,7 +55,7 @@ namespace MonoGame.DfLoader
 					var animName = (string)anim.Attribute("name");
 					var loops = (int)anim.Attribute("loops");
 
-					DfAnimationDef animDef = new DfAnimationDef(loops);
+					AnimationDef animDef = new AnimationDef(loops);
 					anims.Add(animName, animDef);
 
 					foreach (XElement cellNode in anim.Elements("cell"))
@@ -70,7 +69,7 @@ namespace MonoGame.DfLoader
 						if(delayAtt != null)
 							delay = (int)delayAtt;
 
-						DfCell cell = new DfCell(delay);
+						Cell cell = new Cell(delay);
 						animDef.cells.Add(index, cell);
 
 						foreach (XElement sprNode in cellNode.Elements("spr"))
@@ -92,7 +91,7 @@ namespace MonoGame.DfLoader
 
 							angle *= (float)(Math.PI / 180); // Convert angle from degrees to radians
 
-							var spr = new Sprite(sprName, this.spritesheet, new Microsoft.Xna.Framework.Vector2(x, y));
+							var spr = new Sprite(sprName, this.spritesheet, new Vector2(x, y));
 							spr.z = z;
 							spr.flipH = flipH;
 							spr.flipV = flipV;
@@ -108,34 +107,31 @@ namespace MonoGame.DfLoader
 			}
 			catch (Exception e)
 			{
-				System.Console.WriteLine(e.ToString());
-				return;
+				throw new Exception("DfLoader Error. " + e.ToString());
 			}
 		}
 	}
 
-	public class DfAnimationDef
+	public class AnimationDef
 	{
 		public int loops;
-		public SortedList<int, DfCell> cells;
+		public SortedList<int, Cell> cells;
 
-		public DfAnimationDef(int loops)
+		public AnimationDef(int loops)
 		{
-			cells = new SortedList<int, DfCell>();
+			cells = new SortedList<int, Cell>();
 			this.loops = loops;
 		}
 	}
 
-	public class DfCell
+	public class Cell
 	{
-		public int delay;
-		//public Dictionary<string, DfCellSprite> cell_sprs;
+		public int delay;		
 		public Dictionary<string, Sprite> cell_sprs;
 
-		public DfCell(int delay)
+		public Cell(int delay)
 		{
-			this.delay = delay;
-			//cell_sprs = new Dictionary<string, DfCellSprite>();
+			this.delay = delay;			
 			cell_sprs = new Dictionary<string, Sprite>();
 		}
 	}	

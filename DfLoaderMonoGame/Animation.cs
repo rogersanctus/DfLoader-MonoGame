@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MonoGame.DfLoader
 {
 	public class Animation
 	{
-		private DfAnimationDef current;
+		private AnimationDef current;
 		private int currentFrame;
 		private Animations animations;
 		private bool playing;
@@ -18,11 +19,11 @@ namespace MonoGame.DfLoader
 		private bool _pingpong;
 		private int loops;
 
-		public Microsoft.Xna.Framework.Vector2 pos;
+		public Vector2 pos;
 
 		public const string NO_ANIM = "None";
 
-		public Animation(Animations animations, Microsoft.Xna.Framework.Vector2 pos = new Microsoft.Xna.Framework.Vector2())
+		public Animation(Animations animations, Vector2 pos = new Vector2())
 		{
 			_animation = NO_ANIM;				
 			this.animations = animations;
@@ -43,6 +44,7 @@ namespace MonoGame.DfLoader
 			set
 			{
 				_animation = value;
+
 				if(animations.anims.ContainsKey(_animation))
 				{
 					current = animations.anims[_animation];
@@ -50,8 +52,8 @@ namespace MonoGame.DfLoader
 					loops = current.loops;
 				}else
 				{
-					System.Console.WriteLine("Error. No animation found with this name: " + _animation);
-					_animation = NO_ANIM;
+                    _animation = NO_ANIM;
+                    throw new Exception("DfLoader Error. No animation found with this name: " + _animation);
 				}
 			}
 		}
@@ -72,14 +74,19 @@ namespace MonoGame.DfLoader
 			Play();
 		}
 
-		public void Update(Microsoft.Xna.Framework.GameTime dt)
+		public void Update(GameTime dt)
 		{
 			var frame = currentFrame;
-			if (current == null)
-				return;
 
-			if (!playing)
-				return;
+            if (current == null)
+            {
+                return;
+            }
+
+            if (!playing)
+            {
+                return;
+            }
 
 			_time += dt.ElapsedGameTime.Milliseconds;
 			//_time /= 1000;
@@ -103,13 +110,15 @@ namespace MonoGame.DfLoader
 						// Loops done. Time to stop
 						if(loops == 0)
 						{
-							if (current.loops != loops)
-							{
-								Stop();
-								frame = current.cells.Count - 1;
-							}
-							else
-								frame = 0;	// Infinite loops
+                            if (current.loops != loops)
+                            {
+                                Stop();
+                                frame = current.cells.Count - 1;
+                            }
+                            else
+                            {
+                                frame = 0;  // Infinite loops
+                            }
 						}
 					}
 				}
@@ -128,26 +137,30 @@ namespace MonoGame.DfLoader
 						// Loops done. Time to stop
 						if (loops == 0)
 						{
-							if (current.loops != loops)
-							{
-								Stop();
-								frame = 0;
-							}
-							else
-								frame = current.cells.Count - 1;	// Infinite loops
+                            if (current.loops != loops)
+                            {
+                                Stop();
+                                frame = 0;
+                            }
+                            else
+                            {
+                                frame = current.cells.Count - 1;    // Infinite loops
+                            }
 						}
 					}
 				}
 
-				if (_pingpong)
-					_reverse = !_reverse;
+                if (_pingpong)
+                {
+                    _reverse = !_reverse;
+                }
 
 				currentFrame = frame;
 			}
 
 		}
 
-		public void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch batch)
+		public void Draw(SpriteBatch batch)
 		{
 			// Do not try to draw a not found or not defined animation
 			if (_animation == NO_ANIM)

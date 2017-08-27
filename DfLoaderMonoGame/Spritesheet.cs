@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -55,25 +53,27 @@ namespace MonoGame.DfLoader
 					char[] sep = { '.' };
 					texName = texName.Split(sep, StringSplitOptions.RemoveEmptyEntries)[0];
 				}
+
 				tex = content.Load<Texture2D>(texName);
 
 				var definitionsEle = imgEle.Element("definitions");
 
-				if(definitionsEle == null)
-					throw new NullReferenceException();
+                if (definitionsEle == null)
+                {
+                    throw new NullReferenceException();
+                }
 
 				MakeSpriteList(definitionsEle.Element("dir"), "/");
 			}
 			catch (XmlException e)
 			{
-				System.Console.WriteLine(e.ToString());
-				throw;
+				throw new Exception("DfLoader XML parsing error. " + e.ToString());
 			}
 		}
 
-		private void MakeSpriteList(XElement e, string path)
+		private void MakeSpriteList(XElement el, string path)
 		{
-			foreach (XElement d in e.Nodes())
+			foreach (XElement d in el.Nodes())
 			{
 				string oldPath;
 
@@ -83,13 +83,12 @@ namespace MonoGame.DfLoader
 					{
 						oldPath = path;
 						path += ((string)d.Attribute("name")) + "/";
-						MakeSpriteList(d, path);
+						MakeSpriteList(d, path);    // Recursively make sprite list
 						path = oldPath;
 					}
-					catch(Exception exception)
+					catch(Exception e)
 					{
-						System.Console.WriteLine(exception.ToString());
-						return;
+                        throw new Exception("DfLoader error in Xml attribute. " + e.ToString());
 					}
 				}
 				else if (d.Name == "spr")
@@ -105,9 +104,9 @@ namespace MonoGame.DfLoader
 						//SpriteDef spr = new SpriteDef(new Rectangle(x, y, w, h));
 						rects.Add(sprName, new Rectangle(x, y, w, h));
 					}
-					catch (Exception exception)
+					catch (Exception e)
 					{						
-                        throw exception;						
+                        throw new Exception("DfLoader error in Xml attribute. " + e.ToString());
 					}
 
 				}
@@ -117,7 +116,7 @@ namespace MonoGame.DfLoader
 
 	public class SpriteDef
 	{
-		public Microsoft.Xna.Framework.Rectangle rect { get; set; }
+		public Rectangle rect { get; set; }
 
 		public SpriteDef(string name, Spritesheet spritesheet)
 		{
@@ -127,7 +126,7 @@ namespace MonoGame.DfLoader
 			}
 			else
 			{
-				rect = new Microsoft.Xna.Framework.Rectangle();
+				rect = new Rectangle();
 			}
 		}
 	}
