@@ -1,4 +1,5 @@
 ﻿
+using DfLoader;
 using Microsoft.Xna.Framework.Content.Pipeline;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,7 @@ namespace DfContentPipeline
 
         private void processAnimXml( ref AnimationsContent input, XDocument xml )
         {
-            input.Anims = new Dictionary<string, DfLoader.AnimationDefinition>();            
+            input.Anims = new Dictionary<string, AnimationDefinition>();            
 
             try
             {
@@ -55,7 +56,7 @@ namespace DfContentPipeline
                     var animName = (string)anim.Attribute("name");
                     var loops = (int)anim.Attribute("loops");
 
-                    var animDef = new DfLoader.AnimationDefinition(loops);
+                    var animDef = new AnimationDefinition(loops);
                     input.Anims.Add(animName, animDef);
 
                     foreach (XElement cellNode in anim.Elements("cell"))
@@ -69,7 +70,7 @@ namespace DfContentPipeline
                         if (delayAtt != null)
                             delay = (int)delayAtt;
 
-                        var cell = new DfLoader.CellDefinition(delay);
+                        var cell = new CellDefinition(delay);
                         animDef.Cells.Add(index, cell);
 
                         foreach (XElement sprNode in cellNode.Elements("spr"))
@@ -90,7 +91,7 @@ namespace DfContentPipeline
                                 angle = (float)sprNode.Attribute("angle");
 
                             angle *= (float)(Math.PI / 180); // Convert Angle from degrees to radians
-                            var cellspr = new DfLoader.CellSpriteDefinition()
+                            var cellspr = new CellSpriteDefinition()
                             {
                                 Name = sprName,
                                 X = x,

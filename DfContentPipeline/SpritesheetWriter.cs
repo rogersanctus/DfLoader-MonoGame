@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
 using System;
 using Microsoft.Xna.Framework.Content.Pipeline;
+using DfLoader;
 
 namespace DfContentPipeline
 {
@@ -31,7 +32,7 @@ namespace DfContentPipeline
 
         public override string GetRuntimeType(TargetPlatform targetPlatform)
         {
-            return typeof(DfLoader.Spritesheet).AssemblyQualifiedName;
+            return typeof(Spritesheet).AssemblyQualifiedName;
         }
 
         public override string GetRuntimeReader(TargetPlatform targetPlatform)

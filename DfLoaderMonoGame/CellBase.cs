@@ -1,7 +1,7 @@
 ﻿
 namespace DfLoader
 {
-    public abstract class CellBase
+    internal abstract class CellBase
     {
         public int Delay { get; set; }
 
@@ -10,6 +10,6 @@ namespace DfLoader
             Delay = delay;
         }
 
-        internal abstract void Dispose();
+        public abstract void Dispose();
     }
 }

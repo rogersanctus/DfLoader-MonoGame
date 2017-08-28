@@ -2,7 +2,7 @@
 
 namespace DfLoader
 {
-    public class AnimationDefinition
+    internal class AnimationDefinition
     {
         public int Loops { get; set; }
         public SortedList<int, CellBase> Cells { get; set; }
@@ -10,10 +10,10 @@ namespace DfLoader
         public AnimationDefinition(int loops)
         {
             Cells = new SortedList<int, CellBase>();
-            this.Loops = loops;
+            Loops = loops;
         }
 
-        internal void Dispose()
+        public void Dispose()
         {
             foreach (var cell in Cells)
             {

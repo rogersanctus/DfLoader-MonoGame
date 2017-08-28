@@ -2,7 +2,7 @@
 
 namespace DfLoader
 {
-    public class CellDefinition : CellBase
+    internal class CellDefinition : CellBase
     {
         public List<CellSpriteDefinition> CellSprites { get; set; }
 
@@ -11,7 +11,7 @@ namespace DfLoader
             CellSprites = new List<CellSpriteDefinition>();
         }
 
-        internal override void Dispose()
+        public override void Dispose()
         {
             CellSprites.Clear();
             CellSprites = null;

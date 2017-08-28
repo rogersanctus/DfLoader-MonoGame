@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Content.Pipeline;
+﻿using DfLoader;
+using Microsoft.Xna.Framework.Content.Pipeline;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
 using System;
 
@@ -29,7 +30,7 @@ namespace DfContentPipeline
                     output.Write(cell.Key);
                     output.Write(cell.Value.Delay);                    
 
-                    var cellDef = (DfLoader.CellDefinition)cell.Value;
+                    var cellDef = (CellDefinition)cell.Value;
                     output.Write(cellDef.CellSprites.Count);
 
                     foreach(var spr in cellDef.CellSprites)
@@ -48,7 +49,7 @@ namespace DfContentPipeline
 
         public override string GetRuntimeType(TargetPlatform targetPlatform)
         {
-            return typeof(DfLoader.Animations).AssemblyQualifiedName;
+            return typeof(Animations).AssemblyQualifiedName;
         }
 
         public override string GetRuntimeReader(TargetPlatform targetPlatform)

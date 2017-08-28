@@ -1,14 +1,15 @@
-﻿using Microsoft.Xna.Framework.Content.Pipeline;
+﻿using DfLoader;
+using Microsoft.Xna.Framework.Content.Pipeline;
 using System.Collections.Generic;
 
 namespace DfContentPipeline
 {
     public class AnimationsContent : ContentItem
     {
-        private Dictionary<string, DfLoader.AnimationDefinition> anims;
+        private Dictionary<string, AnimationDefinition> anims;
         private string spritesheetFileName;
 
-        public Dictionary<string, DfLoader.AnimationDefinition> Anims
+        internal Dictionary<string, AnimationDefinition> Anims
         {
             get { return anims; }
             set { anims = value; }

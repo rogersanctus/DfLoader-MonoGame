@@ -1,13 +1,13 @@
-﻿using Microsoft.Xna.Framework;
+﻿using DfLoader;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.IO;
-using System.Text.RegularExpressions;
 
 namespace DfContentPipeline
 {
-    class SpritesheetReader : ContentTypeReader<DfLoader.Spritesheet>
+    class SpritesheetReader : ContentTypeReader<Spritesheet>
     {
 
         private static string[] textureExtensions = 
@@ -23,9 +23,9 @@ namespace DfContentPipeline
             }
         }
 
-        protected override DfLoader.Spritesheet Read(ContentReader input, DfLoader.Spritesheet existingInstance)
+        protected override Spritesheet Read(ContentReader input, Spritesheet existingInstance)
         {
-            var spritesheet = new DfLoader.Spritesheet();
+            var spritesheet = new Spritesheet();
 
             var texName = input.ReadString();
             var texWidth = input.ReadInt32();
@@ -49,17 +49,7 @@ namespace DfContentPipeline
                 spritesheet.Rects.Add(rectName, new Rectangle(x, y, width, height));
             }
 
-            var texFile = Path.GetFileNameWithoutExtension(texName);
-
-            /*foreach (var extension in textureExtensions)
-            {
-                if (texName.EndsWith(extension))
-                {
-                    texFile = Regex.Split(texName, extension)[0];
-                    break;
-                }
-            }*/
-
+            var texFile = Path.GetFileNameWithoutExtension(texName);           
             var relativePath = Utils.MakeRelativePathToFile(input.AssetName, texName);
 
             spritesheet.Tex = input.ContentManager.Load<Texture2D>(relativePath + Path.DirectorySeparatorChar + texFile);

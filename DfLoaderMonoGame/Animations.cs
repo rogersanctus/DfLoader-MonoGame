@@ -8,7 +8,7 @@ namespace DfLoader
         private Dictionary<string, AnimationDefinition> anims;
         private Spritesheet spritesheet;
 
-        public Dictionary<string, AnimationDefinition> Anims
+        internal Dictionary<string, AnimationDefinition> Anims
         {
             get
             {
@@ -28,14 +28,6 @@ namespace DfLoader
                 }
 
                 anims = value;
-            }
-        }
-
-        public Spritesheet Spritesheet
-        {
-            get
-            {
-                return spritesheet;
             }
         }
 

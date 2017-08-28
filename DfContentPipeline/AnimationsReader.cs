@@ -1,30 +1,31 @@
-﻿using Microsoft.Xna.Framework;
+﻿using DfLoader;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using System;
 using System.IO;
 
 namespace DfContentPipeline
 {
-    class AnimationsReader : ContentTypeReader<DfLoader.Animations>
+    class AnimationsReader : ContentTypeReader<Animations>
     {
-        protected override DfLoader.Animations Read(ContentReader input, DfLoader.Animations existingInstance)
+        protected override Animations Read(ContentReader input, Animations existingInstance)
         {
             var spritesheetFileName = input.ReadString();
 
             // Try to load the spritesheet
-            DfLoader.Spritesheet spritesheet = null;
+            Spritesheet spritesheet = null;
             try
             {
                 var relativePath = Utils.MakeRelativePathToFile(input.AssetName, spritesheetFileName);
                 var finalFileName = relativePath + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(spritesheetFileName);
-                spritesheet = input.ContentManager.Load<DfLoader.Spritesheet>( finalFileName );
+                spritesheet = input.ContentManager.Load<Spritesheet>( finalFileName );
             }
             catch( Exception e)
             {
                 throw new Exception("DfLoader AnimationReader error. Coult not load spritesheet. " + e.ToString());
             }
 
-            var animations = new DfLoader.Animations(spritesheet);
+            var animations = new Animations(spritesheet);
 
             var animsCount = input.ReadInt32();
 
@@ -35,7 +36,7 @@ namespace DfContentPipeline
 
                 var cellsCount = input.ReadInt32();
 
-                var animation = new DfLoader.AnimationDefinition(animLoops);
+                var animation = new AnimationDefinition(animLoops);
                 animations.Anims.Add(animName, animation);
 
                 for( var j = 0; j < cellsCount; j++ )
@@ -44,7 +45,7 @@ namespace DfContentPipeline
                     var cellDelay = input.ReadInt32();
                     var sprsCount = input.ReadInt32();
 
-                    var cell = new DfLoader.Cell(cellDelay);
+                    var cell = new Cell(cellDelay);
                     animation.Cells.Add(cellIndex, cell);
 
                     for( var k = 0; k < sprsCount; k++ )
@@ -58,7 +59,7 @@ namespace DfContentPipeline
                         var sprAngle = input.ReadSingle();
 
                         cell.CellSprites.Add( sprName, 
-                            new DfLoader.Sprite(sprName, spritesheet, new Vector2(sprX, sprY))
+                            new Sprite(sprName, spritesheet, new Vector2(sprX, sprY))
                             {
                                 Z = sprZ,
                                 FlipH = sprFlipH,

@@ -2,7 +2,7 @@
 
 namespace DfLoader
 {
-    public class SpriteDef
+    internal class SpriteDef
     {
         public Rectangle Rect { get; set; }
 

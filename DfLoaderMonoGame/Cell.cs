@@ -2,7 +2,7 @@
 
 namespace DfLoader
 {
-    public class Cell : CellBase
+    internal class Cell : CellBase
     {
         public Dictionary<string, Sprite> CellSprites { get; set; }
 
@@ -11,7 +11,7 @@ namespace DfLoader
             CellSprites = new Dictionary<string, Sprite>();
         }
 
-        internal override void Dispose()
+        public override void Dispose()
         {
             CellSprites.Clear();
             CellSprites = null;

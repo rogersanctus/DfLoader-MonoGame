@@ -1,7 +1,7 @@
 ﻿
 namespace DfLoader
 {    
-    public class CellSpriteDefinition
+    internal class CellSpriteDefinition
     {
         public string Name { get; set; }
         public int X { get; set; }
