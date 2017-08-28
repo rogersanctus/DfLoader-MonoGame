@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MonoGame.DfLoader
+namespace DfLoader
 {
 	public class Animation
 	{
-		private AnimationDef current;
+		private AnimationDefinition current;
 		private int currentFrame;
 		private Animations animations;
 		private bool playing;
@@ -166,7 +166,8 @@ namespace MonoGame.DfLoader
 			if (name == NO_ANIM)
 				return;
 
-			foreach (KeyValuePair<string, Sprite> pair in current.Cells[currentFrame].CellSprites)
+            var cell = (Cell)current.Cells[currentFrame];
+			foreach (KeyValuePair<string, Sprite> pair in cell.CellSprites)
 			{
 				pair.Value.Pos = Pos;
 				pair.Value.Draw(batch);
