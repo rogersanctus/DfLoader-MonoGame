@@ -6,7 +6,7 @@ using System;
 namespace DfContentPipeline
 {
     [ContentTypeWriter]
-    class AnimationsWriter : ContentTypeWriter<AnimationsContent>
+    public class AnimationsWriter : ContentTypeWriter<AnimationsContent>
     {
 
         protected override void Write(ContentWriter output, AnimationsContent value)
@@ -54,10 +54,7 @@ namespace DfContentPipeline
 
         public override string GetRuntimeReader(TargetPlatform targetPlatform)
         {
-            var readerClassName = GetType().Name.Replace("Writer", "Reader");
-         
-            var readerNamespace = typeof(AnimationsReader).Namespace;
-            return readerNamespace + "." + readerClassName + ", " + readerNamespace;
+            return "DfLoader.AnimationsReader, DfLoader";
         }
     }
 }

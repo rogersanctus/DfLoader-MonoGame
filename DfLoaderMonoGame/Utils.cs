@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace DfContentPipeline
+namespace DfLoader
 {
     internal class Utils
     {

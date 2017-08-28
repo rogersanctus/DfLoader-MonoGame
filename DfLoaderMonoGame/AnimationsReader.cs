@@ -1,12 +1,11 @@
-﻿using DfLoader;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using System;
 using System.IO;
 
-namespace DfContentPipeline
+namespace DfLoader
 {
-    class AnimationsReader : ContentTypeReader<Animations>
+    public class AnimationsReader : ContentTypeReader<Animations>
     {
         protected override Animations Read(ContentReader input, Animations existingInstance)
         {

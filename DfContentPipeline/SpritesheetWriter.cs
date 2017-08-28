@@ -6,7 +6,7 @@ using DfLoader;
 namespace DfContentPipeline
 {
     [ContentTypeWriter]
-    class SpritesheetWriter : ContentTypeWriter<SpritesheetContent>
+    public class SpritesheetWriter : ContentTypeWriter<SpritesheetContent>
     {
         protected override void Write( ContentWriter output, SpritesheetContent value )
         {
@@ -37,14 +37,7 @@ namespace DfContentPipeline
 
         public override string GetRuntimeReader(TargetPlatform targetPlatform)
         {
-            
-            // Change "Writer" in this class name to "Reader" and use the runtime type namespace and assembly
-            var readerClassName = GetType().Name.Replace("Writer", "Reader");
-
-            // From looking at XNA-produced XNBs, it appears built-in
-            // type readers don't need assembly qualification.
-            var readerNamespace = typeof(SpritesheetReader).Namespace;
-            return readerNamespace + "." + readerClassName + ", " + readerNamespace;
+            return "DfLoader.SpritesheetReader, DfLoader";
         }
     }
 }

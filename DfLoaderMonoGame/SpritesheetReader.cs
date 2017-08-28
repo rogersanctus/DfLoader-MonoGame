@@ -1,13 +1,12 @@
-﻿using DfLoader;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.IO;
 
-namespace DfContentPipeline
+namespace DfLoader
 {
-    class SpritesheetReader : ContentTypeReader<Spritesheet>
+    public class SpritesheetReader : ContentTypeReader<Spritesheet>
     {
 
         private static string[] textureExtensions = 
