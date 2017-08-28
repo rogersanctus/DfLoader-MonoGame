@@ -40,10 +40,10 @@ namespace DfLoader
 			}
 		}
 
-		public void Update(GameTime time)
-		{
+        public void Update(GameTime time)
+        {
 
-		}
+        }
 
 		public void Draw( SpriteBatch batch)
 		{

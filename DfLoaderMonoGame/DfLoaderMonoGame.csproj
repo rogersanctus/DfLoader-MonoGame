@@ -47,9 +47,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Animation.cs" />
+    <Compile Include="AnimationDefinition.cs" />
     <Compile Include="Animations.cs" />
+    <Compile Include="Cell.cs" />
+    <Compile Include="CellBase.cs" />
+    <Compile Include="CellDefinition.cs" />
     <Compile Include="CellSpriteDefinition.cs" />
     <Compile Include="Sprite.cs" />
+    <Compile Include="SpriteDef.cs" />
     <Compile Include="Spritesheet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,1 +1,3 @@
-﻿* To change XML and Texture loading process through a custom ContentPipeline processor
+﻿* To change XML and Texture loading process through a custom ContentPipeline processor (DONE)
+* To remove unnecessary using references.
+* To create a single .cs file for every class (DONE)

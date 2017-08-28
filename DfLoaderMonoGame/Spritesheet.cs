@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Xml;
-using System.Xml.Linq;
-
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Content;
 
 namespace DfLoader
 {
@@ -19,23 +14,6 @@ namespace DfLoader
 
 		public Spritesheet()
 		{
-		}
-	}
-
-	public class SpriteDef
-	{
-		public Rectangle Rect { get; set; }
-
-		public SpriteDef(string name, Spritesheet spritesheet)
-		{
-			if (spritesheet.Rects.ContainsKey(name))
-			{
-				Rect = spritesheet.Rects[name];
-			}
-			else
-			{
-				Rect = new Rectangle();
-			}
 		}
 	}
 }
