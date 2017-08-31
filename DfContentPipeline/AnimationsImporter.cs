@@ -1,5 +1,6 @@
 ﻿
 using DfLoader;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content.Pipeline;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace DfContentPipeline
             {
                 var xml = XDocument.Load(filename);
 
-                processAnimXml(ref animationContent, xml);
+                ProcessAnimXml(ref animationContent, xml);
             }
             catch( Exception e)
             {
@@ -30,7 +31,7 @@ namespace DfContentPipeline
             return animationContent;
         }
 
-        private void processAnimXml( ref AnimationsContent input, XDocument xml )
+        private void ProcessAnimXml( ref AnimationsContent input, XDocument xml )
         {
             input.Anims = new Dictionary<string, AnimationDefinition>();            
 
@@ -89,13 +90,9 @@ namespace DfContentPipeline
                                 flipV = (bool)sprNode.Attribute("flipV");
                             if (sprNode.Attribute("angle") != null)
                                 angle = (float)sprNode.Attribute("angle");
-
-                            angle *= (float)(Math.PI / 180); // Convert Angle from degrees to radians
-                            var cellspr = new CellSpriteDefinition()
+                            
+                            var cellspr = new Sprite(sprName, null, new Vector2(x, y))
                             {
-                                Name = sprName,
-                                X = x,
-                                Y = y,
                                 Z = z,
                                 FlipH = flipH,
                                 FlipV = flipV,

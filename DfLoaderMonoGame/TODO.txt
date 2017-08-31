@@ -1,4 +1,6 @@
-﻿* To change XML and Texture loading process through a custom ContentPipeline processor (DONE)
-* To remove unnecessary using references.
-* To create a single .cs file for every class (DONE)
-* To change accessibility of classes unnecessary to the user.
+﻿* Change XML and Texture loading process through a custom ContentPipeline processor (DONE)
+* Remove unnecessary using references.
+* Create a single .cs file for every class (DONE)
+* Change accessibility of classes unnecessary to the user (DONE).
+* Add a common base class to Sprite and Animation (DONE).
+* Work with hierarchical transformations for Animation (DONE).

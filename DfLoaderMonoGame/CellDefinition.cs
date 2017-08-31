@@ -2,16 +2,18 @@
 
 namespace DfLoader
 {
-    internal class CellDefinition : CellBase
+    internal class CellDefinition
     {
-        public List<CellSpriteDefinition> CellSprites { get; set; }
+        public List<Sprite> CellSprites { get; set; }
+        public int Delay { get; set; }
 
-        public CellDefinition(int delay) : base(delay)
+        public CellDefinition(int delay)
         {
-            CellSprites = new List<CellSpriteDefinition>();
+            Delay = delay;
+            CellSprites = new List<Sprite>();
         }
 
-        public override void Dispose()
+        public void Dispose()
         {
             CellSprites.Clear();
             CellSprites = null;

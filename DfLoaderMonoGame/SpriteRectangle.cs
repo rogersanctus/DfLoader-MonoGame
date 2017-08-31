@@ -2,11 +2,11 @@
 
 namespace DfLoader
 {
-    internal class SpriteDef
+    internal class SpriteRectangle
     {
         public Rectangle Rect { get; set; }
 
-        public SpriteDef(string name, Spritesheet spritesheet)
+        public SpriteRectangle(string name, Spritesheet spritesheet)
         {
             if (spritesheet.Rects.ContainsKey(name))
             {

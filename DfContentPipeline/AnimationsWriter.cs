@@ -30,14 +30,14 @@ namespace DfContentPipeline
                     output.Write(cell.Key);
                     output.Write(cell.Value.Delay);                    
 
-                    var cellDef = (CellDefinition)cell.Value;
+                    var cellDef = cell.Value;
                     output.Write(cellDef.CellSprites.Count);
 
                     foreach(var spr in cellDef.CellSprites)
                     {
                         output.Write(spr.Name);
-                        output.Write(spr.X);
-                        output.Write(spr.Y);
+                        output.Write((int)spr.Pos.X);
+                        output.Write((int)spr.Pos.Y);
                         output.Write(spr.Z);
                         output.Write(spr.FlipH);
                         output.Write(spr.FlipV);

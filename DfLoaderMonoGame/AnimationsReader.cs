@@ -44,7 +44,7 @@ namespace DfLoader
                     var cellDelay = input.ReadInt32();
                     var sprsCount = input.ReadInt32();
 
-                    var cell = new Cell(cellDelay);
+                    var cell = new CellDefinition(cellDelay);
                     animation.Cells.Add(cellIndex, cell);
 
                     for( var k = 0; k < sprsCount; k++ )
@@ -57,8 +57,7 @@ namespace DfLoader
                         var sprFlipV = input.ReadBoolean();
                         var sprAngle = input.ReadSingle();
 
-                        cell.CellSprites.Add( sprName, 
-                            new Sprite(sprName, spritesheet, new Vector2(sprX, sprY))
+                        cell.CellSprites.Add( new Sprite(sprName, spritesheet, new Vector2(sprX, sprY) )
                             {
                                 Z = sprZ,
                                 FlipH = sprFlipH,

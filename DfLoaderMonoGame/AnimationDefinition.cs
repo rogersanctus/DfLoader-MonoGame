@@ -5,11 +5,11 @@ namespace DfLoader
     internal class AnimationDefinition
     {
         public int Loops { get; set; }
-        public SortedList<int, CellBase> Cells { get; set; }
+        public SortedList<int, CellDefinition> Cells { get; set; }
 
         public AnimationDefinition(int loops)
         {
-            Cells = new SortedList<int, CellBase>();
+            Cells = new SortedList<int, CellDefinition>();
             Loops = loops;
         }
 

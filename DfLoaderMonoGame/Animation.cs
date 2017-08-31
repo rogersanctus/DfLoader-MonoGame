@@ -1,29 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace DfLoader
 {
-	public class Animation
+	public class Animation : SpriteBase
 	{
 		private AnimationDefinition current;
 		private int currentFrame;
 		private Animations animations;
 		private bool playing;
-		private string name;
 		private double time;
 		private double timeNext;
 		private bool reverse;
 		private bool pingpong;
-		private int loops;
+		private int loops;        
 
-		public Vector2 Pos { get; set; }
+        public const string NO_ANIM = "None";
 
-		public const string NO_ANIM = "None";
-
-		public Animation(Animations animations, Vector2 pos = new Vector2())
+		public Animation(Animations animations, Vector2 pos = new Vector2(), SpriteBase parent = null)
+            : base(parent)
 		{
 			name = NO_ANIM;				
 			this.animations = animations;
@@ -35,31 +31,30 @@ namespace DfLoader
 			timeNext = 0.0;
 			pingpong = reverse = false;
 			loops = 0;
-		}
+        }
 
-		public string Name
-		{
-			get { return name; }
+        protected override void OnNameChanged()
+        {
+            // Animation has not a animation name. Only return.
+            if(name.Equals(NO_ANIM))
+            {
+                return;
+            }
 
-			set
-			{
-				name = value;
+            if (animations.Anims.ContainsKey(name))
+            {
+                current = animations.Anims[name];
+                timeNext = current.Cells[currentFrame].Delay;
+                loops = current.Loops;
+            }
+            else
+            {
+                name = NO_ANIM;
+                throw new Exception("DfLoader Error. No animation found with this name: " + name);
+            }
+        }
 
-				if(animations.Anims.ContainsKey(name))
-				{
-					current = animations.Anims[name];
-					timeNext = current.Cells[currentFrame].Delay;
-					loops = current.Loops;
-				}
-                else
-				{
-                    name = NO_ANIM;
-                    throw new Exception("DfLoader Error. No animation found with this name: " + name);
-				}
-			}
-		}
-
-		public void Play()
+        public void Play()
 		{
 			playing = true;
 		}
@@ -75,8 +70,10 @@ namespace DfLoader
 			Play();
 		}
 
-		public void Update(GameTime dt)
+		public override void Update(GameTime gameTime)
 		{
+            base.Update(gameTime);
+
 			var frame = currentFrame;
 
             if (current == null)
@@ -89,7 +86,7 @@ namespace DfLoader
                 return;
             }
 
-			time += dt.ElapsedGameTime.Milliseconds;
+			time += gameTime.ElapsedGameTime.Milliseconds;
 
 			if(time >= timeNext)
 			{
@@ -158,19 +155,24 @@ namespace DfLoader
 				currentFrame = frame;
 			}
 
-		}
+            var cell = current.Cells[currentFrame];
+            foreach (var spr in cell.CellSprites)
+            {
+                spr.Parent = this;
+                spr.Update(gameTime);
+            }
+        }
 
-		public void Draw(SpriteBatch batch)
+		public override void Draw(SpriteBatch batch)
 		{
 			// Do not try to draw a not found or not defined Name
 			if (name == NO_ANIM)
 				return;
 
-            var cell = (Cell)current.Cells[currentFrame];
-			foreach (KeyValuePair<string, Sprite> pair in cell.CellSprites)
+            var cell = current.Cells[currentFrame];
+			foreach (var spr in cell.CellSprites)
 			{
-				pair.Value.Pos = Pos;
-				pair.Value.Draw(batch);
+				spr.Draw(batch);
 			}
 		}
 
