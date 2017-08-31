@@ -107,7 +107,6 @@ csx
 AppPackages/
 
 # Others
-.vs/
 sql/
 *.Cache
 ClientBin/
@@ -155,3 +154,6 @@ $RECYCLE.BIN/
 
 # Mac desktop service store files
 .DS_Store
+
+# Visual Studio 2017 DB
+.vs/
