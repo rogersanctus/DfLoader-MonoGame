@@ -21,7 +21,7 @@ namespace DfLoader
 		public Animation(Animations animations, Vector2 pos = new Vector2(), SpriteBase parent = null)
             : base(parent)
 		{
-			name = NO_ANIM;				
+			Name = NO_ANIM;
 			this.animations = animations;
 			currentFrame = 0;
 			current = null;
@@ -36,21 +36,21 @@ namespace DfLoader
         protected override void OnNameChanged()
         {
             // Animation has not a animation name. Only return.
-            if(name.Equals(NO_ANIM))
+            if(Name.Equals(NO_ANIM))
             {
                 return;
             }
 
-            if (animations.Anims.ContainsKey(name))
+            if (animations.Anims.ContainsKey(Name))
             {
-                current = animations.Anims[name];
+                current = animations.Anims[Name];
                 timeNext = current.Cells[currentFrame].Delay;
                 loops = current.Loops;
             }
             else
             {
-                name = NO_ANIM;
-                throw new Exception("DfLoader Error. No animation found with this name: " + name);
+                Name = NO_ANIM;
+                throw new Exception("DfLoader Error. No animation found with this name: " + Name);
             }
         }
 
@@ -166,7 +166,7 @@ namespace DfLoader
 		public override void Draw(SpriteBatch batch)
 		{
 			// Do not try to draw a not found or not defined Name
-			if (name == NO_ANIM)
+			if (Name == NO_ANIM)
 				return;
 
             var cell = current.Cells[currentFrame];
