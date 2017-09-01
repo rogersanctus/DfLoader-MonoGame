@@ -103,7 +103,7 @@ namespace DfLoader
 
         }
 
-        public virtual void Update(GameTime time)
+        public virtual void UpdateTransform()
         {
             var radAngle = MathHelper.ToRadians(Angle);
             transform.Origin = Origin;
@@ -114,6 +114,11 @@ namespace DfLoader
 
             // Update the transform position with the new offseted by origin position
             transform.Position = Vector2.Transform(Vector2.Zero, transform.GetMatrix());
+        }
+
+        public virtual void Update(GameTime time)
+        {
+            UpdateTransform();
         }
 
         public virtual void Draw(SpriteBatch batch)
