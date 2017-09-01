@@ -9,19 +9,6 @@ namespace DfLoader
     public class SpritesheetReader : ContentTypeReader<Spritesheet>
     {
 
-        private static string[] textureExtensions = 
-        {
-            // Add more if supported by DarkFunction and MonoGame texture importer
-            ".png", ".tga", ".tiff", ".bmp"
-        };
-
-        public static string[] TextureExtensions {
-            get
-            {
-                return textureExtensions;
-            }
-        }
-
         protected override Spritesheet Read(ContentReader input, Spritesheet existingInstance)
         {
             var spritesheet = new Spritesheet();
@@ -37,7 +24,7 @@ namespace DfLoader
             var rectsCount = input.ReadInt32();
             spritesheet.Rects = new Dictionary<string, Rectangle>();
 
-            for ( int i = 0; i < rectsCount; ++i )
+            for (int i = 0; i < rectsCount; ++i)
             {
                 var rectName = input.ReadString();
                 var x = input.ReadInt32();
@@ -48,10 +35,15 @@ namespace DfLoader
                 spritesheet.Rects.Add(rectName, new Rectangle(x, y, width, height));
             }
 
-            var texFile = Path.GetFileNameWithoutExtension(texName);           
-            var relativePath = Utils.MakeRelativePathToFile(input.AssetName, texName);
+            var finalFileName = Path.GetFileNameWithoutExtension(texName);
+            var relativePath = Utils.MakeRelativePathToFile(input.ContentManager.RootDirectory, input.AssetName, texName);
 
-            spritesheet.Tex = input.ContentManager.Load<Texture2D>(relativePath + Path.DirectorySeparatorChar + texFile);
+            if (relativePath.Length > 0)
+            {
+                finalFileName = Path.Combine(relativePath, finalFileName);
+            }
+
+            spritesheet.Tex = input.ContentManager.Load<Texture2D>(finalFileName);
 
             return spritesheet;
         }

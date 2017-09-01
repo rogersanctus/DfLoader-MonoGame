@@ -15,11 +15,17 @@ namespace DfLoader
             Spritesheet spritesheet = null;
             try
             {
-                var relativePath = Utils.MakeRelativePathToFile(input.AssetName, spritesheetFileName);
-                var finalFileName = relativePath + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(spritesheetFileName);
-                spritesheet = input.ContentManager.Load<Spritesheet>( finalFileName );
+                var finalFileName = Path.GetFileNameWithoutExtension(spritesheetFileName);
+                var relativePath = Utils.MakeRelativePathToFile(input.ContentManager.RootDirectory, input.AssetName, spritesheetFileName);
+
+                if (relativePath.Length > 0)
+                {
+                    finalFileName = Path.Combine(relativePath, finalFileName);
+                }
+
+                spritesheet = input.ContentManager.Load<Spritesheet>(finalFileName);
             }
-            catch( Exception e)
+            catch (Exception e)
             {
                 throw new Exception("DfLoader AnimationReader error. Coult not load spritesheet. " + e.ToString());
             }
@@ -28,7 +34,7 @@ namespace DfLoader
 
             var animsCount = input.ReadInt32();
 
-            for( var i = 0; i < animsCount; i++ )
+            for (var i = 0; i < animsCount; i++)
             {
                 var animName = input.ReadString();
                 var animLoops = input.ReadInt32();
@@ -38,7 +44,7 @@ namespace DfLoader
                 var animation = new AnimationDefinition(animLoops);
                 animations.Anims.Add(animName, animation);
 
-                for( var j = 0; j < cellsCount; j++ )
+                for (var j = 0; j < cellsCount; j++)
                 {
                     var cellIndex = input.ReadInt32();
                     var cellDelay = input.ReadInt32();
@@ -47,7 +53,7 @@ namespace DfLoader
                     var cell = new CellDefinition(cellDelay);
                     animation.Cells.Add(cellIndex, cell);
 
-                    for( var k = 0; k < sprsCount; k++ )
+                    for (var k = 0; k < sprsCount; k++)
                     {
                         var sprName = input.ReadString();
                         var sprX = input.ReadInt32();
@@ -57,13 +63,13 @@ namespace DfLoader
                         var sprFlipV = input.ReadBoolean();
                         var sprAngle = input.ReadSingle();
 
-                        cell.CellSprites.Add( new Sprite(sprName, spritesheet, new Vector2(sprX, sprY) )
-                            {
-                                Z = sprZ,
-                                FlipH = sprFlipH,
-                                FlipV = sprFlipV,
-                                Angle = sprAngle
-                            }
+                        cell.CellSprites.Add(new Sprite(sprName, spritesheet, new Vector2(sprX, sprY))
+                        {
+                            Z = sprZ,
+                            FlipH = sprFlipH,
+                            FlipV = sprFlipV,
+                            Angle = sprAngle
+                        }
                         );
                     }
                 }
