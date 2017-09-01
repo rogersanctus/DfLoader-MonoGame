@@ -9,7 +9,10 @@ namespace DfLoader
 		private Spritesheet spritesheet;
 		private SpriteRectangle def;
 
-		public int Width
+        private bool effectFlipH;
+        private bool effectFlipV;
+
+        public int Width
 		{
 			get
             {
@@ -38,7 +41,7 @@ namespace DfLoader
             Origin = Vector2.Zero;
 			TextureCenter = new Vector2();
 			Angle = 0.0f;
-			FlipH = FlipV = false;
+			effectFlipH = effectFlipV = FlipH = FlipV = false;
 			Z = 0;
 
 			if(spritesheet != null)
@@ -60,6 +63,7 @@ namespace DfLoader
             }
 
             Scale = scale;
+            effectFlipH = FlipH;
         }
 
         protected override void OnFlipVChanged()
@@ -73,16 +77,25 @@ namespace DfLoader
             }
 
             Scale = scale;
+            effectFlipV = FlipV;
         }
 
-        public override void Update(GameTime gameTime)
+        public override void UpdateTransform()
         {
-            base.Update(gameTime);
+            base.UpdateTransform();
 
             if (Parent != null)
             {
                 transform = Transformation.Compose(Parent.Transform, transform);
+                // If parent is flipped, flip child
+                effectFlipH = Parent.FlipH ^ FlipH;
+                effectFlipV = Parent.FlipV ^ FlipV;
             }
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);            
         }
 
 		public override void Draw( SpriteBatch batch)
@@ -94,8 +107,8 @@ namespace DfLoader
 
             SpriteEffects effects = SpriteEffects.None;
 
-            if (FlipH) effects |= SpriteEffects.FlipHorizontally;
-            if (FlipV) effects |= SpriteEffects.FlipVertically;
+            if (effectFlipH) effects |= SpriteEffects.FlipHorizontally;
+            if (effectFlipV) effects |= SpriteEffects.FlipVertically;
 
             var scale = new Vector2( Math.Abs(transform.Scale.X), Math.Abs(transform.Scale.Y) );
 
