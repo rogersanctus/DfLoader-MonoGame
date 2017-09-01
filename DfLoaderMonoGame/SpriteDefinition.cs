@@ -4,11 +4,11 @@ namespace DfLoader
 {    
     public class SpriteDefinition
     {
-        protected string name;
-        protected Vector2 pos;
-        protected bool flipH;
-        protected bool flipV;
-        protected float angle;
+        private string name;
+        private Vector2 pos;
+        private bool flipH;
+        private bool flipV;
+        private float angle;
 
         public string Name
         {
