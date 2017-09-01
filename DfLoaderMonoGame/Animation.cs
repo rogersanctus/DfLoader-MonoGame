@@ -44,8 +44,11 @@ namespace DfLoader
             if (animations.Anims.ContainsKey(Name))
             {
                 current = animations.Anims[Name];
+                currentFrame = 0;
                 timeNext = current.Cells[currentFrame].Delay;
                 loops = current.Loops;
+
+                UpdateTransform();
             }
             else
             {
@@ -66,14 +69,25 @@ namespace DfLoader
 
 		public void Restart()
 		{
-			currentFrame = 1;
+			currentFrame = 0;
 			Play();
 		}
 
-		public override void Update(GameTime gameTime)
-		{
-            base.Update(gameTime);
+        public override void UpdateTransform()
+        {
+            base.UpdateTransform();
 
+            // Update the inner sprites for the current cell(frame)
+            var cell = current.Cells[currentFrame];
+            foreach (var spr in cell.CellSprites)
+            {
+                spr.Parent = this;
+                spr.UpdateTransform();
+            }
+        }
+
+        public override void Update(GameTime gameTime)
+		{
 			var frame = currentFrame;
 
             if (current == null)
@@ -81,23 +95,9 @@ namespace DfLoader
                 return;
             }
 
-            // Update the inner sprites for the current cell(frame)
-            var cell = current.Cells[currentFrame];
-            foreach (var spr in cell.CellSprites)
-            {
-                spr.Parent = this;
-                spr.Update(gameTime);
-            }
-
-            // Not playing, just return
-            if (!playing)
-            {
-                return;
-            }
-
 			time += gameTime.ElapsedGameTime.Milliseconds;
 
-			if(time >= timeNext)
+			if(playing && time >= timeNext)
 			{
 				timeNext = time + current.Cells[frame].Delay;
 
@@ -163,6 +163,8 @@ namespace DfLoader
 
 				currentFrame = frame;
 			}
+
+            base.Update(gameTime);
         }
 
 		public override void Draw(SpriteBatch batch)
