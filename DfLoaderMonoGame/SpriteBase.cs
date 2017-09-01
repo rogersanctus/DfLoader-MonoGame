@@ -70,10 +70,10 @@ namespace DfLoader
 
         public SpriteBase( SpriteBase parent = null )
         {
-            origin = Vector2.Zero;
-            this.parent = parent;
-            scale = Vector2.One;
-            color = Color.White;
+            Origin = Vector2.Zero;
+            Parent = parent;
+            Scale = Vector2.One;
+            Color = Color.White;
 
             transform = Transformation.Identity;
         }
@@ -105,10 +105,10 @@ namespace DfLoader
 
         public virtual void Update(GameTime time)
         {
-            var radAngle = MathHelper.ToRadians(angle);
-            transform.Origin = origin;
-            transform.Position = pos;
-            transform.Scale = scale;
+            var radAngle = MathHelper.ToRadians(Angle);
+            transform.Origin = Origin;
+            transform.Position = Pos;
+            transform.Scale = Scale;
             transform.Rotation = radAngle;
             transform.ApplyMatrix();
 
