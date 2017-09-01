@@ -26,7 +26,7 @@ namespace DfLoader
 			currentFrame = 0;
 			current = null;
 			playing = false;
-			this.Pos = pos;
+			Pos = pos;
 			time = 0.0;
 			timeNext = 0.0;
 			pingpong = reverse = false;
@@ -81,6 +81,15 @@ namespace DfLoader
                 return;
             }
 
+            // Update the inner sprites for the current cell(frame)
+            var cell = current.Cells[currentFrame];
+            foreach (var spr in cell.CellSprites)
+            {
+                spr.Parent = this;
+                spr.Update(gameTime);
+            }
+
+            // Not playing, just return
             if (!playing)
             {
                 return;
@@ -154,13 +163,6 @@ namespace DfLoader
 
 				currentFrame = frame;
 			}
-
-            var cell = current.Cells[currentFrame];
-            foreach (var spr in cell.CellSprites)
-            {
-                spr.Parent = this;
-                spr.Update(gameTime);
-            }
         }
 
 		public override void Draw(SpriteBatch batch)
