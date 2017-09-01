@@ -32,50 +32,56 @@ namespace DfLoader
 		public Sprite(string name, Spritesheet spritesheet, Vector2 pos = new Vector2(), SpriteBase parent = null)
             : base(parent)
 		{
-            this.name = name;
+            Name = name;
 			this.spritesheet = spritesheet;
-			this.pos = pos;
-            origin = Vector2.Zero;
-			textureCenter = new Vector2();
-			angle = 0.0f;
-			flipH = flipV = false;
+			Pos = pos;
+            Origin = Vector2.Zero;
+			TextureCenter = new Vector2();
+			Angle = 0.0f;
+			FlipH = FlipV = false;
 			Z = 0;
 
 			if(spritesheet != null)
 			{
 				def = new SpriteRectangle(name, spritesheet);
-				textureCenter = new Vector2(def.Rect.Width / 2.0f, def.Rect.Height / 2.0f);
+				TextureCenter = new Vector2(def.Rect.Width / 2.0f, def.Rect.Height / 2.0f);
 			}
 		}
 
 
         protected override void OnFlipHChanged()
         {
+            var scale = Scale;
             scale.X = Math.Abs(scale.X);
 
-            if (flipH)
+            if (FlipH)
             {
                 scale.X = -1.0f * scale.X;
             }
+
+            Scale = scale;
         }
 
         protected override void OnFlipVChanged()
         {
+            var scale = Scale;
             scale.Y = Math.Abs(scale.Y);
 
-            if (flipV)
+            if (FlipV)
             {
                 scale.Y = -1.0f * scale.Y;
             }
+
+            Scale = scale;
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
 
-            if (parent != null)
+            if (Parent != null)
             {
-                transform = Transformation.Compose(parent.Transform, transform);
+                transform = Transformation.Compose(Parent.Transform, transform);
             }
         }
 
@@ -93,8 +99,7 @@ namespace DfLoader
 
             var scale = new Vector2( Math.Abs(transform.Scale.X), Math.Abs(transform.Scale.Y) );
 
-            batch.Draw(spritesheet.Tex, transform.Position, def.Rect, color, transform.Rotation, textureCenter, scale, effects, Z);
-			//batch.Draw(spritesheet.Tex, Pos, def.Rect, color, (float)Angle, TextureCenter, new Vector2(ScaleX, ScaleY), effects, (float)Z);
+            batch.Draw(spritesheet.Tex, transform.Position, def.Rect, Color, transform.Rotation, TextureCenter, scale, effects, Z);
 		}
 	}
 }
