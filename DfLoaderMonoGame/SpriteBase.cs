@@ -5,11 +5,11 @@ namespace DfLoader
 {
     public abstract class SpriteBase : SpriteDefinition
     {
-        protected SpriteBase parent;
-        protected Vector2 origin;
-        protected Vector2 textureCenter;
-        protected Vector2 scale;
-        protected Color color;
+        private SpriteBase parent;
+        private Vector2 origin;
+        private Vector2 textureCenter;
+        private Vector2 scale;
+        private Color color;
 
         public SpriteBase Parent
         {
